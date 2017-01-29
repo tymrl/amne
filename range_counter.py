@@ -22,7 +22,8 @@ def compute_subranges(n, k, prices):
     ])
 
     for start_point in range(n - k + 1):
-        print(int(change_matrix[start_point:start_point + k,
-                                start_point:start_point + k].sum()))
+        sub_matrix = change_matrix[start_point:start_point + k,
+                                   start_point:start_point + k]
+        print(int(sub_matrix.sum()))
 
-compute_subranges(n, k, change_matrix)
+compute_subranges(n, k, prices)
