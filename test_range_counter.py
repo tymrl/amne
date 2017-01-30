@@ -38,6 +38,15 @@ def test_increasing_example():
     eq_(range_counter.compute_subrange_sums(), [6] * 7)
 
 
+def test_degenerate_example():
+    range_counter = RangeCounter(1000, 1, [0] * 1000)
+
+    range_counter.assign_change_matrix()
+
+    eq_(range_counter.change_matrix.tolist(), [[0] * 1000] * 1000)
+    eq_(range_counter.compute_subrange_sums(), [0] * 1000)
+
+
 def test_random_example():
     n = 200000
     range_counter = RangeCounter(n, randrange(n), [randrange(1000000) for _ in range(n)])
