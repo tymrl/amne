@@ -16,14 +16,15 @@ def find_change_row(start_point, n, prices):
             break
     return change_row
 
-def compute_subranges(n, k, prices):
+def compute_subrange_sums(n, k, prices):
     change_matrix = np.array([
-        find_change_row(start_point, n, prices) for start_point in range(0, n)
+        find_change_row(start_point, n, prices) for start_point in range(n)
     ])
 
-    for start_point in range(n - k + 1):
-        sub_matrix = change_matrix[start_point:start_point + k,
-                                   start_point:start_point + k]
-        print(int(sub_matrix.sum()))
+    return [
+        int(change_matrix[start_point:start_point + k,
+                          start_point:start_point + k].sum())
+        for start_point in range(n - k + 1)
+    ]
 
-compute_subranges(n, k, prices)
+results = compute_subrange_sums(n, k, prices)
