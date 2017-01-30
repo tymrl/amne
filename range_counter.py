@@ -1,25 +1,30 @@
 import numpy as np
 
+class RangeCounter:
+    def __init__(self, n, k, prices):
+        self.n = n
+        self.k = k
+        self.prices = prices
+        self.change_matrix = np.zeros((n, n))
 
-def find_change_row(start_point, n, prices):
-    change_row = np.zeros(n)
-    if start_point == n - 1:
-        return change_row
-    change = np.sign(prices[start_point + 1] - prices[start_point])
-    for end_point in range(start_point + 1, n):
-        if np.sign(prices[end_point] - prices[end_point - 1]) == change:
-            change_row[end_point] = change
-        else:
-            break
-    return change_row
+    def _assign_change_row(self, start_point):
+        if start_point == self.n - 1:
+            return
+        change = np.sign(self.prices[start_point + 1] - self.prices[start_point])
+        for end_point in range(start_point + 1, self.n):
+            if np.sign(self.prices[end_point] - self.prices[end_point - 1]) == change:
+                self.change_matrix[start_point, end_point] = change
+            else:
+                break
 
-def compute_subrange_sums(n, k, prices):
-    change_matrix = np.array([
-        find_change_row(start_point, n, prices) for start_point in range(n)
-    ])
+    def assign_change_matrix(self):
+        for start_point in range(self.n):
+            self._assign_change_row(start_point)
 
-    return [
-        int(change_matrix[start_point:start_point + k,
-                          start_point:start_point + k].sum())
-        for start_point in range(n - k + 1)
-    ]
+    def compute_subrange_sums(self):
+        return [
+            int(self.change_matrix[start_point:start_point + self.k,
+                                   start_point:start_point + self.k].sum())
+            for start_point in range(self.n - self.k + 1)
+        ]
+
