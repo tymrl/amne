@@ -1,4 +1,6 @@
 from nose.tools import eq_
+import numpy as np
+from random import randrange
 
 from range_counter import find_change_row, compute_subrange_sums
 
@@ -26,3 +28,16 @@ def test_increasing_example():
             [0] * (start_point + 1) + [1] * (10 - (start_point + 1)))
 
     eq_(compute_subrange_sums(n, k, prices), [6] * (n - k + 1))
+
+
+def test_random_example():
+    n = 200000
+    k = randrange(n)
+    prices = [randrange(1000000) for _ in range(n)]
+
+    for _ in range(10):
+        assert set(find_change_row(randrange(n), n, prices)) in [{0, -1}, {0, 1}]
+
+    subrange_sums = compute_subrange_sums(n, k, prices)
+
+    eq_(len(subrange_sums), n - k + 1)
