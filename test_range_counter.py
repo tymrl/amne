@@ -15,3 +15,14 @@ def test_basic_example():
     eq_(list(find_change_row(4, n, prices)), [0, 0, 0,  0, 0])
 
     eq_(compute_subrange_sums(n, k, prices), [3, 0, -1])
+
+
+def test_increasing_example():
+    n = 10
+    k = 4
+    prices = range(n)
+    for start_point in range(n):
+        eq_(list(find_change_row(start_point, n, prices)),
+            [0] * (start_point + 1) + [1] * (10 - (start_point + 1)))
+
+    eq_(compute_subrange_sums(n, k, prices), [6] * (n - k + 1))
