@@ -1,8 +1,5 @@
 import numpy as np
 
-n = 5
-k = 3
-prices = [188930, 194123, 201345, 154243, 154243]
 
 def find_change_row(start_point, n, prices):
     change_row = np.zeros(n)
@@ -26,5 +23,3 @@ def compute_subrange_sums(n, k, prices):
                           start_point:start_point + k].sum())
         for start_point in range(n - k + 1)
     ]
-
-results = compute_subrange_sums(n, k, prices)
