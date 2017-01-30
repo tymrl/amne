@@ -5,7 +5,9 @@ from range_counter import RangeCounter
 
 
 def test_basic_example():
-    range_counter = RangeCounter(5, 3, [188930, 194123, 201345, 154243, 154243])
+    range_counter = RangeCounter(
+        5, 3, [188930, 194123, 201345, 154243, 154243]
+    )
 
     range_counter.assign_change_matrix()
 
@@ -15,7 +17,6 @@ def test_basic_example():
                                                [0, 0, 0,  0, 0],
                                                [0, 0, 0,  0, 0]])
 
-
     eq_(range_counter.compute_subrange_sums(), [3, 0, -1])
 
 
@@ -24,16 +25,17 @@ def test_increasing_example():
 
     range_counter.assign_change_matrix()
 
-    eq_(range_counter.change_matrix.tolist(), [[0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                                               [0, 0, 1, 1, 1, 1, 1, 1, 1, 1],
-                                               [0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
-                                               [0, 0, 0, 0, 1, 1, 1, 1, 1, 1],
-                                               [0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
-                                               [0, 0, 0, 0, 0, 0, 1, 1, 1, 1],
-                                               [0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
-                                               [0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
-                                               [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-                                               [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],])
+    eq_(range_counter.change_matrix.tolist(),
+        [[0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+         [0, 0, 1, 1, 1, 1, 1, 1, 1, 1],
+         [0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
+         [0, 0, 0, 0, 1, 1, 1, 1, 1, 1],
+         [0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+         [0, 0, 0, 0, 0, 0, 1, 1, 1, 1],
+         [0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
+         [0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
 
     eq_(range_counter.compute_subrange_sums(), [6] * 7)
 
@@ -49,7 +51,9 @@ def test_degenerate_example():
 
 def test_random_example():
     n = 200000
-    range_counter = RangeCounter(n, randrange(n), [randrange(1000000) for _ in range(n)])
+    range_counter = RangeCounter(
+        n, randrange(n), [randrange(1000000) for _ in range(n)]
+    )
 
     range_counter.assign_change_matrix()
 
