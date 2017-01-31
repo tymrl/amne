@@ -118,4 +118,5 @@ def run():
 
 
 # Actually run our script
-run()
+if __name__ == '__main__':
+    run()
