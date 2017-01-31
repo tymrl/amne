@@ -1,7 +1,10 @@
-from nose.tools import eq_
+from nose.tools import eq_, assert_raises
+import os
 from random import randrange
+from tempfile import TemporaryDirectory
+from uuid import uuid4
 
-from range_counter import RangeCounter
+from range_counter import RangeCounter, read_file
 
 
 def test_basic_example():
@@ -60,3 +63,30 @@ def test_random_example():
     for _ in range(10):
         row_index = randrange(n)
         assert set(range_counter.change_matrix[row_index]) in [{0, 1}, {0, -1}]
+
+
+def test_read_file():
+    with TemporaryDirectory() as tempdir:
+        # Make sure read_file() runs
+        filename = os.path.join(tempdir, '.range%s.txt' % uuid4())
+
+        with open(filename, 'w') as f:
+            f.write('4 2\n 111111 22222 33333 444444\n')
+
+        range_counter = read_file(filename)
+        range_counter.assign_change_matrix()
+        eq_(range_counter.compute_subrange_sums(), [-1, 1, 1])
+
+        # Mismatch between n & number of prices
+        with open(filename, 'w') as f:
+            f.write('4 2\n 1 2 3')
+
+        with assert_raises(AssertionError):
+            range_counter = read_file(filename)
+
+        # Extra lines
+        with open(filename, 'w') as f:
+            f.write('1\n2\n3\n')
+
+        with assert_raises(ValueError):
+            range_counter = read_file(filename)
